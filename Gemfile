@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# ルビーのバージョンは記しておく
+ruby '2.1.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
@@ -41,10 +43,25 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
-  # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
+# V8 JavaScriptインタプリタをrubyに組み込むためのgemパッケージ
+gem 'therubyracer', platforms: :ruby
+# パスワードの暗号化で使用
+gem 'bcrypt', '~> 3.1.7'
+# XML/HTMLの解析・生成のためのgemパッケージです。
+gem 'nokogiri', '~> 1.6.1'
+# railsが出力するエラーメッセージ、日付、時刻、通過単位などの翻訳ファイルをあつめたgemパッケージ
+gem 'rails-i18n', '~> 4.0.1'
+
+group :test do
+  gem 'rspec-rails', '~> 3.0.0.beta2'
+  gem 'capybara', '~> 2.2.1'
+  gem 'factory_girl_rails', '~> 4.4.1'
+  gem 'database_cleaner', '~> 1.2.0'
+  gem 'spring-commands-rspec'
+end

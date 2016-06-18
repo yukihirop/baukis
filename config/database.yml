@@ -14,8 +14,12 @@ default: &default
   encoding: utf8
   pool: 5
   username: root
-  password: Te108186 # パスワードが無いと辛い
+  password: Te108186 # パスワードが無いとデータベースアクセス認証エラーになる
   socket: # /tmp/mysql.sock(これはvagrant上の環境に合わせる必要があるが基本かかない)
+
+  # Can't connect to local MySQL server through socket '/opt/lampp/var/mysql/mysql.sock' (13)
+  # ymlファイルのusernameとpasswordとsocketなどの設定がおかしい可能性がある
+
 
 development:
   <<: *default
@@ -50,5 +54,5 @@ test:
 production:
   <<: *default
   database: baukis_production
-  username: baukis
-  password: <%= ENV['BAUKIS_DATABASE_PASSWORD'] %>
+  username: root # baukis
+  password: Te108186 # <%= ENV['BAUKIS_DATABASE_PASSWORD'] %>
