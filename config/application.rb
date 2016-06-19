@@ -22,7 +22,7 @@ module Baukis
     # -- all .rb files in that directory are automatically loaded.
 
     # production環境でエラーになる
-    # config.web_console.development_only = false
+    config.web_console.development_only = false
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -43,7 +43,6 @@ module Baukis
       g.controller_specs false
       g.view_specs false
     end
-
 
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.

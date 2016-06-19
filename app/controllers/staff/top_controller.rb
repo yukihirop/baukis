@@ -1,8 +1,8 @@
-class Staff::TopController < ApplicationController
+class Staff::TopController < Staff::Base
 
   def index
     # 例外をわざと発生
-    raise
+    # raise
     render action: 'index'
   end
 
