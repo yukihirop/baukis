@@ -1,9 +1,9 @@
-class Admin::TopController < ApplicationController
+class Admin::TopController < Admin::Base
 
   def index
 
     # IpAddressRejectedのエラーをわざと発生
-    raise IpAddressRejected
+    # raise IpAddressRejected
     render action: 'index'
   end
 
