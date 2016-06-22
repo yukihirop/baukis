@@ -44,7 +44,8 @@ module Baukis
       g.view_specs false
     end
 
-    config.action_controller.permit_all_parameters = true
+    # ストロングパラメータを無効に
+    # config.action_controller.permit_all_parameters = true
 
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
