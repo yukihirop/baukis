@@ -1,4 +1,5 @@
 class Admin::SessionsController < Admin::Base
+  skip_before_action :authorize
 
   def new
     # すでにログインしている場合
@@ -19,9 +20,18 @@ class Admin::SessionsController < Admin::Base
 
     # administratorがnilでなく認証されたらsessionに保存
     if Admin::Authenticator.new(administrator).authenticate(@form.password)
-      session[:administrator_id] = administrator.id
-      flash.notice = 'ログインしました。'
-      redirect_to :admin_root
+      if administrator.suspended?
+        flash.now.alert = 'アカウントが停止されています'
+        render action: 'new'
+      else
+        session[:administrator_id] = administrator.id
+        session[:admin_last_access_time] = Time.current
+        flash.notice = 'ログインしました。'
+        redirect_to :admin_root
+      end
+      # session[:administrator_id] = administrator.id
+      # flash.notice = 'ログインしました。'
+      # redirect_to :admin_root
     else
       flash.now.alert = 'メールアドレスまたはパスワードが正しくありません。'
       render action: 'new'

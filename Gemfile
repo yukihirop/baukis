@@ -58,6 +58,11 @@ gem 'nokogiri', '~> 1.6.1'
 # railsが出力するエラーメッセージ、日付、時刻、通過単位などの翻訳ファイルをあつめたgemパッケージ
 gem 'rails-i18n', '~> 4.0.1'
 
+# 外部キーを設定する機能
+gem 'foreigner', '~> 1.6.1'
+gem 'kaminari', '~> 0.15.1'
+gem 'quiet_assets', '~> 1.0.2', group: :development
+
 group :test do
   gem 'rspec-rails', '~> 3.0.0.beta2'
   gem 'capybara', '~> 2.2.1'

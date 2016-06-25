@@ -25,7 +25,10 @@ Rails.application.routes.draw do
       # delete 'session' => 'sessions#destroy'
       resource :session, only: [:create, :destroy]
       # 7つの基本アクションのためのルーティング
-      resources :staff_members
+      resources :staff_members do
+        resources :staff_events, only: [:index]
+      end
+      resources :staff_events, only: [:index]
     end
   end
 

@@ -1,6 +1,10 @@
 require 'rails_helper'
 require 'spec_helper'
 
+describe Admin::StaffMembersController, 'ログイン前' do
+  it_behaves_like 'a protected admin controller'
+end
+
 describe Admin::StaffMembersController do
   # attributes_forはFactoryGirlのメソッド
   # letは「メモ化されたヘルパーメソッド」
@@ -9,6 +13,11 @@ describe Admin::StaffMembersController do
   # end
   # の形をしている
   let(:params_hash) { attributes_for(:staff_member) }
+  let(:administrator) { create(:administrator) }
+
+  before do
+    session[:administrator_id] = administrator.id
+  end
 
   describe '#create' do
 

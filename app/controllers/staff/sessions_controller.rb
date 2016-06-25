@@ -1,4 +1,5 @@
 class Staff::SessionsController < Staff::Base
+  skip_before_action :authorize
 
   def new
     # すでにログインしている場合
@@ -18,14 +19,25 @@ class Staff::SessionsController < Staff::Base
 
     # staff_memaberがnilでないならsessionに保存
     if Staff::Authenticator.new(staff_member).authenticate(@form.password)
-      session[:staff_member_id] = staff_member.id
-      flash.notice = 'ログインしました。'
-      # indexにredirect
-      redirect_to :staff_root
-
-    elsif !Staff::Authenticator.new(staff_member).suspended_authenticate(@form.password)
-      flash.notice = 'アカウントが停止されています。'
-      redirect_to :staff_root
+      if staff_member.suspended?
+        staff_member.events.create!(type: 'rejected')
+        flash.now.alert = 'アカウントが停止されています。'
+        render action: 'new'
+      else
+        session[:staff_member_id] = staff_member.id
+        session[:last_access_time] = Time.current
+        staff_member.events.create!(type: 'logged_in')
+        flash.notice = 'ログインしました。'
+        redirect_to :staff_root
+      end
+    #   session[:staff_member_id] = staff_member.id
+    #   flash.notice = 'ログインしました。'
+    #   # indexにredirect
+    #   redirect_to :staff_root
+    #
+    # elsif !Staff::Authenticator.new(staff_member).suspended_authenticate(@form.password)
+    #   flash.notice = 'アカウントが停止されています。'
+    #   redirect_to :staff_root
 
     else
       flash.now.alert = 'メールアドレスまたはパスワードが正しくありません。'
@@ -35,6 +47,9 @@ class Staff::SessionsController < Staff::Base
   end
 
   def destroy
+    if current_staff_member
+      current_staff_member.events.create!(type: 'logged_out')
+    end
     session.delete(:staff_member_id)
     flash.notice = 'ログアウトしました。'
     redirect_to :staff_root
