@@ -1,5 +1,7 @@
 module ApplicationHelper
 
+  include HtmlBuilder
+
   def document_title
     if @title.present?
       "#{@title} - Baukis"
@@ -7,4 +9,6 @@ module ApplicationHelper
       'Baukis'
     end
   end
+
+
 end

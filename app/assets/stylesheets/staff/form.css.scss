@@ -43,8 +43,13 @@ div#wrapper {
           label { color: $red; }
           input { background-color: $pink; }
         }
-      }
+        div.errors-message {
+          color: $red;
+          font-size: $small;
+          padding: 0 $very_wide;
+        }
 
+      }
     }
   }
 }
