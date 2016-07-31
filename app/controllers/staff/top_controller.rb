@@ -4,7 +4,13 @@ class Staff::TopController < Staff::Base
   def index
     # 例外をわざと発生
     # raise
-    render action: 'index'
+    # render action: 'index'
+
+    if current_staff_member
+      render action: 'dashboard'
+    else
+      render action: 'index'
+    end
   end
 
 end
