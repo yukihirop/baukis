@@ -15,4 +15,9 @@ module StringNormalizer
     NKF.nkf('-w -Z1', text).strip if text
   end
 
+  def normalize_as_postal_code(text)
+    # - を　''に置き換える
+    NKF.nkf('-w -Z1', text).strip.gsub(/-/, '') if text
+  end
+
 end
