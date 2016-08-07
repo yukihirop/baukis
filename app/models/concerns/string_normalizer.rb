@@ -20,4 +20,10 @@ module StringNormalizer
     NKF.nkf('-w -Z1', text).strip.gsub(/-/, '') if text
   end
 
+  def normalize_as_phone_number(text)
+    NKF.nkf('-w -Z1', text).strip if text
+  end
+
+
+
 end

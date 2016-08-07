@@ -2,6 +2,10 @@ class Address < ActiveRecord::Base
   include StringNormalizer
 
   belongs_to :customer
+  # -> Procオブジェクトはscopeといわれる
+  # 検索の付帯条件を課す
+  has_many :phones, -> { order(:id) }, dependent: :destroy, autosave: true
+
 
   before_validation do
     # 郵便番号を数字だけにしておく

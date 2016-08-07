@@ -7,6 +7,12 @@ class Customer < ActiveRecord::Base
   # で保存される
   has_one :home_address, dependent: :destroy, autosave: true
   has_one :work_address, dependent: :destroy, autosave: true
+  has_many :phones, dependent: :destroy
+
+  # 検索の付帯条件を設定？(自宅住所のやつではない)
+  has_many :personal_phones, -> { where(address_id: nil).order(:id) },
+           class_name: 'Phone', autosave: true
+
 
 
   # inclusionヴァリデーションは値が特定のリストの中にあることを確かめるもの

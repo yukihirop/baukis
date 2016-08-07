@@ -31,6 +31,7 @@ feature '職員による顧客管理' do
     fill_in '生年月日', with: '1970-01-01'
     # なんでこれだけでいいの？
     choose '男性'
+    check '自宅住所を入力する'
 
     within('fieldset#home-address-fields') do
       fill_in '郵便番号', with: '1000001'
@@ -39,6 +40,9 @@ feature '職員による顧客管理' do
       fill_in '町域、番地等', with: '千代田区1-1-1'
       fill_in '建物名、部屋番号等', with: ''
     end
+
+    check '勤務先を入力する'
+
     within('fieldset#work-address-fields') do
       fill_in '会社名', with: 'テスト'
       fill_in '部署名', with: ''
@@ -104,9 +108,39 @@ feature '職員による顧客管理' do
     expect(customer.work_address.company_name).to eq('テスト')
   end
 
+  scenario '職員が勤務先データのない既存顧客に会社名の情報を追加する' do
+    click_link '顧客管理'
+    first('table.listing').click_link '編集'
 
+    #勤務先データのない既存顧客
+    customer.work_address.destroy
 
+    within('fieldset#work-address-fields') do
+      fill_in '会社名', with: 'テスト'
+    end
 
+    # これ必要やね
+    click_button '更新'
+
+    customer.reload
+    expect(customer.work_address.company_name).to eq('テスト')
+
+  end
+
+  scenario '職員が既存の顧客アカウントに勤務先電話番号を追加する' do
+    click_link '顧客管理'
+    first('table.listing').click_link '編集'
+
+    within('fieldset#work-address-fields') do
+      fill_in 'form[work_address][phones][0][number]', with: '03-0000-0009'
+    end
+
+    click_button '更新'
+
+    customer.reload
+    expect(customer.work_address.phones[0][:number]).to eq('03-0000-0009')
+
+  end
 
 
 end
