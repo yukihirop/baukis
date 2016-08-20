@@ -10,10 +10,15 @@ class Phone < ActiveRecord::Base
     #number属性の値から数字以外の文字(正規表現では\D)をgsubメソッドで
     #すべて除去し、number_for_index属性にセット
     self.number_for_index = number.gsub(/\D/, '') if number
+
+    if number_for_index && number_for_index.size >= 4
+      self.last_four_digits = number_for_index[-4, 4]
+    end
   end
 
   before_create do
     self.customer = address.customer if address
+    # self.last_four_digits = address.number_for_index[-4,4]
   end
 
   # 先頭にプラス記号が０個か１個あり
